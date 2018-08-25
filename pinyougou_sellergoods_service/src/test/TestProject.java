@@ -13,11 +13,4 @@ public class TestProject {
     @Autowired
     private UserMapper userMapper;
 
-    @Test
-    public void test01(){
-
-        User user = userMapper.selectByPrimaryKey(34);
-        System.out.println(user);
-    }
-
 }
