@@ -1,22 +1,18 @@
 package com.pinyougou.sellergoods.service.impl;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.github.abel533.entity.Example;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.pinyougou.entity.PageResult;
-import com.pinyougou.mapper.BrandService;
+import com.pinyougou.sellergoods.service.BrandService;
 import com.pinyougou.mapper.TbBrandMapper;
 import com.pinyougou.pojo.TbBrand;
 import org.apache.commons.lang3.StringUtils;
-import org.jboss.netty.util.internal.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-@com.alibaba.dubbo.config.annotation.Service
+@Service
 public class BrandServiceImpl implements BrandService {
     
     @Autowired
@@ -76,7 +72,6 @@ public class BrandServiceImpl implements BrandService {
         for (Long id : Ids) {
             brandMapper.deleteByPrimaryKey(id);
         }
-
         /*List<Long> list = Arrays.asList(Ids);
 
         brandMapper.deleteByExample();*/

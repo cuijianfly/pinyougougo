@@ -434,7 +434,7 @@ public class TbItem implements Serializable {
     }
 
     /**
-     * @param brand
+     * @param
      */
     public void setBrand(String brand) {
         this.brand = brand;

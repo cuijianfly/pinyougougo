@@ -223,7 +223,7 @@ public class TbGoods implements Serializable {
     /**
      * 设置品牌
      *
-     * @param brandId 品牌
+     * @param Id 品牌
      */
     public void setBrandId(Long brandId) {
         this.brandId = brandId;

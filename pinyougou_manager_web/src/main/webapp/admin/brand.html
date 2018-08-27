@@ -11,114 +11,21 @@
     <link rel="stylesheet" href="../css/style.css">
 	<script src="../plugins/jQuery/jquery-2.2.3.min.js"></script>
     <script src="../plugins/bootstrap/js/bootstrap.min.js"></script>
+
 	<!--引入js-->
 	<script src="../plugins/angularjs/angular.min.js"></script>
 	<!--引入分页插件-->
 	<script src="../plugins/angularjs/pagination.js"></script>
 	<link rel="stylesheet" href="../plugins/angularjs/pagination.css">
-    <script>
-		/*定义模块*/
-		var app = angular.module("pinyougou",['pagination']);
-		/*定义控制器*/
-		app.controller("brandController",function ($scope,$http) {
 
-            $scope.paginationConf = {
-                //当前页
-                currentPage: 1,
-                //总记录数
-                totalItems: 10,
-                //每页查询的记录数
-                itemsPerPage: 10,
-                //分页选项，用于选择每页显示多少条记录
-                perPageOptions: [10, 20, 30, 40, 50],
-                //当页码变更后触发的函数
-                onChange: function(){
-                    $scope.reloadList();//重新加载
-                }
-            };
-            //重新加载数据
-            $scope.reloadList = function () {
-                /*传分页参数*/
-                $scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
-            }
-            $scope.searchEntity = {};
-			/*分页查询*/
-			$scope.findPage = function(page,size){
-				$http.post('../brand/findPage.do?page='+page+"&size="+size,$scope.searchEntity).success(
-				    function (data) {
-				        //更新数据列表
-						$scope.list = data.rows;
-						//更新总记录数
-						$scope.paginationConf.totalItems = data.total;
-                    }
-				)
-			}
+    <!--引入自定义服务-->
+    <script src="../js/base/base_pagination.js"></script>
+    <script src="../js/controller/brandControl.js"></script>
+    <script src="../js/base/baseController.js"></script>
+    <script src="../js/service/brandService.js"></script>
 
-
-            /*根据id查询商标*/
-           $scope.queryById = function (id) {
-			   $http.get('../brand/queryById.do?id='+id).success(
-			       function (data) {
-					   $scope.entity = data;
-                   }
-			   )
-           }
-            /*根据id更新商标*/
-			$scope.save = function(){
-			    var methodName = "add.do";
-			    if($scope.entity.id != null){
-			        methodName = "updateBrand.do";
-				}
-					/*新增商标*/
-                	$http.post("../brand/"+methodName,$scope.entity).success(
-                        function (data) {
-                            if( !data.success){
-                                alert(data.msg)
-                            }else{
-                                $scope.reloadList();
-                            }
-                        }
-                    )
-                }
-			/*选中的id*/
-            $scope.selectIds=[];
-			$scope.updateSelection = function ($event,id) {
-				if($event.target.checked){
-                    $scope.selectIds.push(id);
-				}else{
-				    /*查找当前id的索引*/
-                    var idx = $scope.selectIds.indexOf(id);
-                    /*从列表中移除*/
-                    $scope.selectIds.splice(idx,1);
-				}
-            }
-            /*删除选中项*/
-			$scope.delete = function () {
-			    var flag = confirm("您确定要删除选中的项目吗？")
-					if(flag){
-					$http.get('../brand/delete.do?Ids='+$scope.selectIds).success(
-						function (data) {
-							if(!data.success){
-								alert(data.msg);
-							}else{
-								$scope.reloadList();
-							}
-						}
-					)
-				}
-            }
-
-            /*$scope.findAll = function () {
-				$http.get("../brand/findAll.do").success(
-				    function (data) {
-						$scope.list = data;
-                    }
-				)
-            }*/
-        })
-	</script>
 </head>
-<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController" ng-init="reloadList()">
+<body class="hold-transition skin-red sidebar-mini" ng-app="pinyougou" ng-controller="brandController" >
   <!-- .box-body -->
 		<div class="box-header with-border">
 			<h3 class="box-title">品牌管理</h3>
@@ -175,10 +82,9 @@
 					  </tbody>
 				  </table>
 				  <!--数据列表/-->
-				<!--分页-->
-				<tm-pagination conf="paginationConf"></tm-pagination>
-
 			</div>
+			<!--分页-->
+			<tm-pagination conf="paginationConf"></tm-pagination>
 			<!-- 数据表格 /-->
 		 </div>
 		<!-- /.box-body -->

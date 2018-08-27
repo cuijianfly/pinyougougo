@@ -96,7 +96,7 @@ public class TbTypeTemplate implements Serializable {
     /**
      * 设置关联品牌
      *
-     * @param brandIds 关联品牌
+     * @param Ids 关联品牌
      */
     public void setBrandIds(String brandIds) {
         this.brandIds = brandIds;

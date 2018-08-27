@@ -1,6 +1,4 @@
 import com.pinyougou.mapper.UserMapper;
-import com.pinyougou.pojo.User;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;

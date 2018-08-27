@@ -14,6 +14,9 @@ public class TbBrand implements Serializable {
      */
     private String name;
 
+    public String getText(){
+        return this.getName();
+    }
     /**
      * 品牌首字母
      */

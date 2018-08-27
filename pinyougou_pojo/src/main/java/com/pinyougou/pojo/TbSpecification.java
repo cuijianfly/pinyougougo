@@ -12,6 +12,9 @@ public class TbSpecification implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    public String getText(){
+        return this.getSpecName();
+    }
     /**
      * 名称
      */
