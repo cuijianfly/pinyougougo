@@ -1,4 +1,4 @@
-package com.pinyougou.manager.controller;
+package com.pinyougou.shop.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.entity.Result;
@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 /**
  * controller
  * @author Administrator

@@ -31,6 +31,6 @@ app.service('itemCatService',function($http){
 	}    
 	//根据父id查询分类列表
 	this.findByParentId = function (parentId) {
-		return $http.get('../../itemCat/findByParentId.do?parentId='+parentId);
+		return $http.get('../itemCat/findByParentId.do?parentId='+parentId);
     }
 });

@@ -1,16 +1,16 @@
 package com.pinyougou.sellergoods.service.impl;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.pinyougou.entity.PageResult;
 import com.pinyougou.mapper.TbItemCatMapper;
 import com.pinyougou.pojo.TbItemCat;
 import com.pinyougou.pojo.TbItemCatExample;
 import com.pinyougou.pojo.TbItemCatExample.Criteria;
 import com.pinyougou.sellergoods.service.ItemCatService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.pinyougou.entity.PageResult;
+import java.util.List;
 
 /**
  * 服务实现层
@@ -22,7 +22,19 @@ public class ItemCatServiceImpl implements ItemCatService {
 
 	@Autowired
 	private TbItemCatMapper itemCatMapper;
-	
+
+	/**
+	 * 根据父ID查询商品分类列表
+	 * @param parentId
+	 * @return
+	 */
+	@Override
+	public List<TbItemCat> findByParentId(Long parentId) {
+		TbItemCat where = new TbItemCat();
+		where.setParentId(parentId);
+		return itemCatMapper.select(where);
+	}
+
 	/**
 	 * 查询全部
 	 */
@@ -73,9 +85,16 @@ public class ItemCatServiceImpl implements ItemCatService {
 	 */
 	@Override
 	public void delete(Long[] ids) {
+	    //或者如果有子项目，就不能删除
+        //使用id==parentId查询，如果查询结果不为空，则表示有子项目，抛出异常
+        //如果查询结果为空，则可以直接删除
 		for(Long id:ids){
-			itemCatMapper.deleteByPrimaryKey(id);
-		}		
+            /*一起删除*/
+            itemCatMapper.deleteByPrimaryKey(id);
+            TbItemCat where = new TbItemCat();
+            where.setParentId(id);
+            itemCatMapper.delete(where);
+		}
 	}
 	
 	

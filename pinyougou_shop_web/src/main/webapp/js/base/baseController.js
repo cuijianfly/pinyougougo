@@ -46,5 +46,29 @@ app.controller('baseController',function ($scope) {
         }
         return result;
     }
-
+    /**
+     * 遍历List<Map>，查找对应的数据
+     * @param list 搜索的列表
+     * @param key 搜索的key
+     * @param keyValue 对比的值
+     * @returns {*}
+     */
+    $scope.searchObjectByKey = function (list,key,keyValue) {
+    /*
+    key:"attributeName"
+    keyValue:"网络制式"、"屏幕尺寸"
+    [
+	    {"attributeName":"网络制式","attributeValue":["移动4G"]},
+	    {"attributeName":"屏幕尺寸","attributeValue":["5.5寸","4.5寸"]}
+    ]
+    */
+        for(var i = 0; i < list.length; i++){
+            //如果找到相应key，返回找到的对象
+            if(list[i][key] == keyValue){
+                return list[i];
+            }
+        }
+        return null;
+        /*操你妈的代码，千万不写在for循环里面去了*/
+    }
 })

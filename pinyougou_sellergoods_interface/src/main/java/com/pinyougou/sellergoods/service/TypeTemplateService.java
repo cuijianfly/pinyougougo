@@ -1,14 +1,24 @@
 package com.pinyougou.sellergoods.service;
+
 import com.pinyougou.entity.PageResult;
 import com.pinyougou.pojo.TbTypeTemplate;
 
 import java.util.List;
+import java.util.Map;
+
 /**
  * 服务层接口
  * @author Administrator
  *
  */
 public interface TypeTemplateService {
+
+	/**
+	 * 跟据模板id查询规格列表
+	 * @param id
+	 * @return
+	 */
+	public List<Map> findSpecList(Long id);
 
 	/**
 	 * 返回全部列表

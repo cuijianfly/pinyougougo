@@ -1,16 +1,20 @@
 package com.pinyougou.sellergoods.service.impl;
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import com.alibaba.dubbo.config.annotation.Service;
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.pinyougou.entity.PageResult;
+import com.pinyougou.mapper.TbSpecificationOptionMapper;
 import com.pinyougou.mapper.TbTypeTemplateMapper;
+import com.pinyougou.pojo.TbSpecificationOption;
 import com.pinyougou.pojo.TbTypeTemplate;
 import com.pinyougou.pojo.TbTypeTemplateExample;
 import com.pinyougou.pojo.TbTypeTemplateExample.Criteria;
 import com.pinyougou.sellergoods.service.TypeTemplateService;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.pinyougou.entity.PageResult;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 服务实现层
@@ -22,7 +26,31 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
 
 	@Autowired
 	private TbTypeTemplateMapper typeTemplateMapper;
-	
+    @Autowired
+    private TbSpecificationOptionMapper specificationOptionMapper;
+	/**
+	 * 根据模板id查询规格列表
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public List<Map> findSpecList(Long id) {
+		//根据id查询模板
+        TbTypeTemplate typeTemplate = typeTemplateMapper.selectByPrimaryKey(id);
+        //将规格项:[{"id":48,"text":"机身颜色"}]转换成List<Map>
+        List<Map> mapList = JSON.parseArray(typeTemplate.getSpecIds(), Map.class);
+        //为每一个Map中添加对应的规格项
+        TbSpecificationOption where = null;
+        for (Map map : mapList) {
+            Long idx = Long.valueOf(map.get("id").toString());
+            where = new TbSpecificationOption();
+            where.setSpecId(idx);
+            List<TbSpecificationOption> specificationOptions = specificationOptionMapper.select(where);
+            map.put("options",specificationOptions);
+        }
+        return mapList;
+	}
+
 	/**
 	 * 查询全部
 	 */
