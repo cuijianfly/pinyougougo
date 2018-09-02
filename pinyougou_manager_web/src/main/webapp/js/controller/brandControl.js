@@ -5,7 +5,7 @@ app.controller('brandController',function ($scope,$controller,brandService) {
 
     /*查询+分页*/
     $scope.searchEntity = {};
-    $scope.findPage = function(page,size){
+    $scope.search = function(page,size){
         brandService.findPage(page,size,$scope.searchEntity).success(
             function (data) {
                 //更新数据列表

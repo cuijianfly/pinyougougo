@@ -18,7 +18,7 @@ app.controller('baseController',function ($scope) {
     //重新加载数据
     $scope.reloadList = function () {
         /*传分页参数*/
-        $scope.findPage($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
+        $scope.search($scope.paginationConf.currentPage,$scope.paginationConf.itemsPerPage);
     }
 
     /*选中的id*/
@@ -62,12 +62,12 @@ app.controller('baseController',function ($scope) {
 	    {"attributeName":"屏幕尺寸","attributeValue":["5.5寸","4.5寸"]}
     ]
     */
-        for(var i = 0; i < list.length; i++){
-            //如果找到相应key，返回找到的对象
-            if(list[i][key] == keyValue){
-                return list[i];
+            for(var i = 0; i < list.length; i++){
+                //如果找到相应key，返回找到的对象
+                if(list[i][key] == keyValue){
+                    return list[i];
+                }
             }
-        }
         return null;
         /*操你妈的代码，千万不写在for循环里面去了*/
     }

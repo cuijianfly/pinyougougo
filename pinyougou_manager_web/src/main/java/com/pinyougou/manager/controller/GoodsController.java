@@ -64,7 +64,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/update")
-	public Result update(@RequestBody TbGoods goods){
+	public Result update(@RequestBody Goods goods){
 		try {
 			goodsService.update(goods);
 			return new Result(true, "修改成功");
@@ -80,7 +80,7 @@ public class GoodsController {
 	 * @return
 	 */
 	@RequestMapping("/findOne")
-	public TbGoods findOne(Long id){
+	public Goods findOne(Long id){
 		return goodsService.findOne(id);		
 	}
 	
@@ -93,10 +93,10 @@ public class GoodsController {
 	public Result delete(Long [] ids){
 		try {
 			goodsService.delete(ids);
-			return new Result(true, "删除成功"); 
+			return new Result(true, "删除成 功");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new Result(false, "删除失败");
+			return new Result(false, "删除 失败");
 		}
 	}
 	
@@ -111,5 +111,21 @@ public class GoodsController {
 	public PageResult search(@RequestBody TbGoods goods, int page, int rows  ){
 		return goodsService.findPage(goods, page, rows);		
 	}
-	
+
+	/**
+	 * 审核商家
+	 * @param ids
+	 * @param auditStatus
+	 * @return
+	 */
+	@RequestMapping("updateStatus")
+	public Result updateStatus(Long[] ids, String auditStatus){
+		try {
+			goodsService.updateStatus(ids,auditStatus);
+			return new Result(true,"更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new Result(true,"更新失败");
+		}
+	}
 }

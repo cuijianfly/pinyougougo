@@ -1,5 +1,5 @@
  //控制层 
-app.controller('goodsController' ,function($scope,$controller   ,goodsService){	
+app.controller('goodsController',function($scope,$controller,goodsService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -23,13 +23,18 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 	}
 	
 	//查询实体 
-	$scope.findOne=function(id){				
-		goodsService.findOne(id).success(
-			function(response){
-				$scope.entity= response;					
-			}
-		);				
-	}
+	$scope.findOne=function(id){
+		// 获取id
+		var id = $location.search()['id'];
+		if(id == null){
+			return;
+        }
+        goodsService.findOne(id).success(
+            function(response){
+                $scope.entity= response;
+            }
+        );
+    }
 	
 	//保存 
 	$scope.save=function(){				
@@ -75,5 +80,36 @@ app.controller('goodsController' ,function($scope,$controller   ,goodsService){
 			}			
 		);
 	}
+    /*创建数组，用于显示商家商品状态，数组的索引和审核状态保持一致*/
+    $scope.status = ['未审核','已审核','审核未通过','已关闭'];
+    // 加载商品分类列表
+    // 定义数组用于存储商品分类名，页面通过分类列表的id为索引进行取值
+    $scope.itemCatList = [];
+    $scope.findItemCatList = function () {
+        itemCatService.findAll().success(
+            function (data) {
+                for(var i=0; i < data.length; i++){
+                    $scope.itemCatList[data[i].id] = data[i].name;
+                }
+            }
+        )
+    }
     
+    /*
+    *审核商品
+    * 1：审核通过
+    * 2：驳回
+    **/
+    $scope.updateStatus = function (auditStatus) {
+		goodsService.updateStatus($scope.selectIds,auditStatus).success(
+			function (data) {
+				if(data.success){
+                    $scope.reloadList();
+                    $scope.selectIds=[];//清空列表
+				}else{
+					alert(data.msg);
+				}
+            }
+		)
+    }
 });	
