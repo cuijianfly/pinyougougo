@@ -1,5 +1,5 @@
  //控制层 
-app.controller('contentController' ,function($scope,$controller   ,contentService){	
+app.controller('contentController' ,function($scope,$controller,uploadService,contentService,contentCategoryService){
 	
 	$controller('baseController',{$scope:$scope});//继承
 	
@@ -34,7 +34,7 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 	//保存 
 	$scope.save=function(){				
 		var serviceObject;//服务层对象  				
-		if($scope.entity.id!=null){//如果有ID
+		if($scope.entity.id != null){//如果有ID
 			serviceObject=contentService.update( $scope.entity ); //修改  
 		}else{
 			serviceObject=contentService.add( $scope.entity  );//增加 
@@ -45,7 +45,7 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 					//重新查询 
 		        	$scope.reloadList();//重新加载
 				}else{
-					alert(response.message);
+					alert(response.msg);
 				}
 			}		
 		);				
@@ -75,5 +75,30 @@ app.controller('contentController' ,function($scope,$controller   ,contentServic
 			}			
 		);
 	}
-    
+    //上传广告图
+    $scope.uploadFile=function(){
+        uploadService.uploadFile().success(
+            function(response){
+                if(response.success){
+                    $scope.entity.pic=response.msg;
+                }else{
+                    alert("上传失败！");
+                }
+            }
+        ).error(
+            function(){
+                alert("上传出错！");
+            }
+        );
+    }
+	//显示广告分类列表
+	$scope.findContentCategoryList = function () {
+		contentCategoryService.findAll().success(
+			function (data) {
+                $scope.contentCategoryList = data;
+            }
+		)
+    }
+    //广告状态
+	$scope.status = ['无效','有效'];
 });	
